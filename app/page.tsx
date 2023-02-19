@@ -1,91 +1,50 @@
-import Image from 'next/image'
-import { Inter } from '@next/font/google'
-import styles from './page.module.css'
-
-const inter = Inter({ subsets: ['latin'] })
+'use client'
+import { Box, Container, Flex, Heading, SimpleGrid, useDisclosure } from "@chakra-ui/react";
+import SearchBar from "@/components/Searchbar";
+import FiltersDrawer from "@/components/FiltersDrawer";
+import ItemsList from "./ItemsList";
 
 export default function Home() {
+  const filters = [
+    {
+      title: "Category",
+      options: ["Electronics", "Books", "Clothing", "Beauty", "Home & Kitchen"],
+    },
+    {
+      title: "Price",
+      options: ["Under $25", "$25 to $50", "$50 to $100", "Over $100"],
+    },
+    {
+      title: "Brand",
+      options: ["Apple", "Samsung", "Nike", "Adidas", "Lululemon", "Chanel", "Gucci"],
+    },
+  ];
+
+  const handleFilterChange = (selectedFilters: { [key: string]: string[] }) => {
+    // do something with the selected filters
+    console.log(selectedFilters);
+  };
+
+  const handleSearch = (query: string) => {
+    // do something with the search query
+    console.log(query);
+  };
+
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
-
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-        <div className={styles.thirteen}>
-          <Image src="/thirteen.svg" alt="13" width={40} height={31} priority />
-        </div>
-      </div>
-
-      <div className={styles.grid}>
-        <a
-          href="https://beta.nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={inter.className}>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p className={inter.className}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={inter.className}>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p className={inter.className}>Explore the Next.js 13 playground.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={inter.className}>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p className={inter.className}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
-  )
+    <Box p="6">
+      <Container maxW="container.lg">
+        <Flex mb="6" justify="space-between" align="center">
+          <SearchBar placeholder="Search products" onChange={handleSearch} />
+          <Box cursor="pointer" color="gray.600" _hover={{ color: "gray.800" }}>
+          <FiltersDrawer filters={filters} onChange={handleFilterChange} />
+          </Box>
+        </Flex>
+        <Flex>
+          <SimpleGrid columns={[1, 2, 3]} spacing="6">
+            <ItemsList />
+          </SimpleGrid>
+        </Flex>
+      </Container>
+    </Box>
+  );
 }
